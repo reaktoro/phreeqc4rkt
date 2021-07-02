@@ -1,0 +1,7 @@
+add_custom_target(tests
+    COMMAND ${CMAKE_COMMAND} -S ${PROJECT_SOURCE_DIR} -B ${PROJECT_BINARY_DIR} -DCMAKE_INSTALL_PREFIX=${PROJECT_BINARY_DIR}/installdir
+    COMMAND ${CMAKE_COMMAND} --build ${PROJECT_BINARY_DIR} --target install
+    COMMAND ${CMAKE_COMMAND} -S ${CMAKE_CURRENT_SOURCE_DIR}/cmake-project -B cmake-project/build -DCMAKE_PREFIX_PATH=${PROJECT_BINARY_DIR}/installdir
+    COMMAND ${CMAKE_COMMAND} --build cmake-project/build
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+)
