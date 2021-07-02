@@ -1,8 +1,14 @@
 # Require a certain version of cmake
 cmake_minimum_required(VERSION 3.0)
 
+# Set the cmake module path of the project
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+
+# Use ccache to speed up repeated compilations
+include(CCache)
+
 # Set the name of the project
-project(phreeqc4rkt)
+project(phreeqc4rkt VERSION 3.6.2.1 LANGUAGES CXX)
 
 # Replace the word Phreeqc by PHREEQC
 add_definitions(-DPhreeqc=PHREEQC)
@@ -26,8 +32,15 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/PhreeqcKeywords)
 # Create the shared library using the collected source files
 add_library(phreeqc4rkt SHARED ${HEADER_FILES} ${SOURCE_FILES})
 
-# Install the target shared library
-install(TARGETS phreeqc4rkt DESTINATION lib)
+# Install the target shared C++ library phreeqc4rkt
+install(TARGETS phreeqc4rkt
+    EXPORT phreeqc4rktTargets
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libraries
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libraries
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT libraries)
 
 # Install the header files preserving the directory hierarchy
 install(FILES ${HEADER_FILES} DESTINATION include/phreeqc4rkt)
+
+# Install the cmake config files that permit users to use find_package(phreeqc4rkt)
+include(phreeqc4rktInstallCMakeConfigFiles)
