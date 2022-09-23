@@ -7,6 +7,9 @@ file(GLOB_RECURSE SOURCE_FILES *.cpp *.cxx)
 # Building shared library, so `class_main.cpp` should be ignored in the list of source files
 list(FILTER SOURCE_FILES EXCLUDE REGEX "class_main.cpp")
 
+# Enable automatic creation of a module definition (.def) file for a SHARED library on Windows.
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
+
 # Create the shared library using the collected source files
 add_library(phreeqc4rkt SHARED ${HEADER_FILES} ${SOURCE_FILES})
 
